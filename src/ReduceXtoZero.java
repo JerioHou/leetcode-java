@@ -35,12 +35,39 @@ public class ReduceXtoZero {
 
 
     public static void main(String[] args) {
-        int[] nums = {1,1,2,4,3};
-        System.out.println(new ReduceXtoZero().minOperations(nums,5));
+        int[] nums = {1,1};
+        System.out.println(new ReduceXtoZero().minOperations(nums,6));
     }
 
     public int minOperations(int[] nums, int x) {
-        return backTrack(nums,x,0,nums.length-1,0);
+//        return backTrack(nums,x,0,nums.length-1,0);
+        int left = 0;int right = 0;
+        int maxLength = -1;
+        int sum = 0;
+        for (int i = 0 ; i < nums.length;i++) {
+            sum += nums[i];
+        }
+        if (sum == x) {
+            return nums.length;
+        }
+        int count = sum - x;
+        if (count < 0) {
+            return -1;
+        }
+        int currSum = 0;
+        while (right < nums.length) {
+            currSum += nums[right];
+            while (currSum > count) {
+                currSum -= nums[left];
+                left++;
+            }
+
+            if ( currSum == count) {
+                maxLength = Math.max(maxLength,right-left + 1);
+            }
+            right++;
+        }
+        return maxLength == -1 ? maxLength : nums.length-maxLength;
     }
 
 
