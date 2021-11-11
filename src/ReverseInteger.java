@@ -31,8 +31,8 @@
 public class ReverseInteger {
 
     public static void main(String[] args) {
-        System.out.println(Integer.MIN_VALUE);
-        System.out.println(new ReverseInteger().reverse(3101));
+        System.out.println(Integer.MAX_VALUE + 1);
+        System.out.println(new ReverseInteger().reverse2(Integer.MAX_VALUE));
     }
 
     public int reverse(int x) {
@@ -46,5 +46,22 @@ public class ReverseInteger {
             x = x / 10;
         }
         return rev;
+    }
+
+    public int reverse2(int x)
+    {
+        int result = 0;
+
+        while (x != 0)
+        {
+            int tail = x % 10;
+            int newResult = result * 10 + tail;
+            if ((newResult - tail) / 10 != result)
+            { return 0; }
+            result = newResult;
+            x = x / 10;
+        }
+
+        return result;
     }
 }
