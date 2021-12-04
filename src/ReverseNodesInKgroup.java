@@ -30,7 +30,7 @@ import java.util.List;
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class ReverseNodesInKgroup {
-    // TODO: 2021/12/3 未完成
+
     public static void main(String[] args) {
         ListNode head = new ListNode(0);
         ListNode node1 = new ListNode(1);
@@ -47,10 +47,9 @@ public class ReverseNodesInKgroup {
         ListNode node5 = new ListNode(5);
         node4.next = node5;
 
-        System.out.println(head);
 
         ListNode listNode = new ReverseNodesInKgroup().reverseKGroup(head, 2);
-        System.out.println(listNode);
+        printNode(listNode);
     }
 
 
@@ -59,7 +58,8 @@ public class ReverseNodesInKgroup {
         sential.next = head;
         ListNode tail = sential;
         ListNode preTail = sential;
-        ListNode nextHead;
+        ListNode nextHead = sential.next;
+        ListNode currentHead = sential.next;
         while (tail != null) {
             for (int i = 0; i < k; i++) {
                 tail = tail.next;
@@ -67,25 +67,25 @@ public class ReverseNodesInKgroup {
                     return sential.next;
                 }
             }
-
             // 暂存尾节点的下一个节点
             nextHead = tail.next;
-            ListNode[] reverse = reverse(head, tail);
-
+            ListNode[] reverse = reverse(currentHead, tail);
             // 之前的尾节点 指向 新的头结点
             preTail.next = reverse[0];
             // 新的尾节点指向 后续的节点
             preTail = reverse[1];
             preTail.next = nextHead;
-            tail = nextHead;
+            currentHead = nextHead;
+            tail = preTail;
         }
         return sential.next;
     }
 
     private static ListNode[] reverse(ListNode head, ListNode tail) {
+        ListNode tailNext = tail.next;
         ListNode sentinelNode = new ListNode();
         ListNode ptr = head;
-        while (ptr != tail) {
+        while (ptr != tailNext) {
             ListNode tmp = ptr.next;
             ptr.next = sentinelNode.next;
             sentinelNode.next = ptr;
@@ -101,5 +101,19 @@ public class ReverseNodesInKgroup {
       ListNode() {}
       ListNode(int val) { this.val = val; }
       ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+
+      @Override
+      public String toString(){
+          return val+"";
+      }
+  }
+
+  private static void printNode(ListNode node) {
+        StringBuilder builder = new StringBuilder();
+        while (node != null) {
+            builder.append(node.val).append("—>");
+            node = node.next;
+        }
+      System.out.println(builder.subSequence(0,builder.length()-2));
   }
 }
